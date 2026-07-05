@@ -83,6 +83,14 @@ class CustomGemini(Gemini):
 DISCOUNT_CODES = {
     "FROSTING20": {"redeemed": False, "active": True, "discount": "20% off frosting products"},
     "SPRINKLES30": {"redeemed": False, "active": True, "discount": "30% off sprinkles products"},
+    "GLAZED10": {"redeemed": False, "active": True, "discount": "10% off glazed products"},
+    "JELLY15": {"redeemed": False, "active": True, "discount": "15% off jelly products"},
+    "BOSTON25": {"redeemed": False, "active": True, "discount": "25% off Boston Cream products"},
+    "MAPLE20": {"redeemed": False, "active": True, "discount": "20% off maple bacon products"},
+    "FRITTER10": {"redeemed": False, "active": True, "discount": "10% off apple fritters"},
+    "BLUEBERRY15": {"redeemed": False, "active": True, "discount": "15% off blueberry products"},
+    "CHOCO20": {"redeemed": False, "active": True, "discount": "20% off double chocolate products"},
+    "MATCHA25": {"redeemed": False, "active": True, "discount": "25% off matcha products"},
 }
 
 # In-memory store for registered users
@@ -137,22 +145,22 @@ def get_donut_menu() -> str:
     """
     return (
         "Donut Menu:\n"
-        "- Glazed Donut: $1.50\n"
+        "- Glazed Donut: $1.50 (Eligible for GLAZED10)\n"
         "- Chocolate Frosted Donut: $1.75 (Eligible for FROSTING20)\n"
         "- Strawberry Sprinkles Donut: $1.85 (Eligible for SPRINKLES30)\n"
-        "- Jelly-Filled Donut: $2.00\n"
-        "- Boston Cream Donut: $2.20\n"
-        "- Maple Bacon Donut: $2.50\n"
-        "- Apple Fritter: $2.25\n"
+        "- Jelly-Filled Donut: $2.00 (Eligible for JELLY15)\n"
+        "- Boston Cream Donut: $2.20 (Eligible for BOSTON25)\n"
+        "- Maple Bacon Donut: $2.50 (Eligible for MAPLE20)\n"
+        "- Apple Fritter: $2.25 (Eligible for FRITTER10)\n"
         "- Cinnamon Twist: $1.95\n"
         "- Old Fashioned Glazed Donut: $1.60\n"
-        "- Blueberry Cake Donut: $1.70\n"
+        "- Blueberry Cake Donut: $1.70 (Eligible for BLUEBERRY15)\n"
         "- Red Velvet Cake Donut: $1.80\n"
         "- Coconut Toasted Donut: $1.90\n"
         "- Powdered Sugar Donut: $1.40\n"
         "- Lemon Filled Donut: $2.10\n"
         "- Cronut (Croissant Donut): $3.00\n"
-        "- Double Chocolate Donut: $1.80\n"
+        "- Double Chocolate Donut: $1.80 (Eligible for CHOCO20)\n"
         "- Vanilla Frosted Donut: $1.75\n"
         "- Cinnamon Roll Donut: $2.25\n"
         "- Pumpkin Spice Cake Donut: $1.85\n"
@@ -160,8 +168,23 @@ def get_donut_menu() -> str:
         "- Salted Caramel Glazed Donut: $2.10\n"
         "- Bavarian Cream Donut: $2.15\n"
         "- Cookies and Cream Donut: $2.20\n"
-        "- Matcha Green Tea Donut: $2.30\n"
-        "- Apple Cider Donut: $1.85"
+        "- Matcha Green Tea Donut: $2.30 (Eligible for MATCHA25)\n"
+        "- Apple Cider Donut: $1.85\n"
+        "- S'mores Donut: $2.40\n"
+        "- Raspberry Jam Donut: $2.05\n"
+        "- Peanut Butter Cup Donut: $2.45\n"
+        "- Pistachio Glazed Donut: $2.35\n"
+        "- Lemon Poppyseed Donut: $1.95\n"
+        "- Banana Pudding Donut: $2.10\n"
+        "- Coconut Cream Donut: $2.20\n"
+        "- Salted Caramel Pretzel Donut: $2.50\n"
+        "- White Chocolate Raspberry Donut: $2.40\n"
+        "- Caramel Apple Donut: $2.25\n"
+        "- Espresso Cake Donut: $1.90\n"
+        "- Rocky Road Donut: $2.30\n"
+        "- Maple Pecan Donut: $2.15\n"
+        "- Mint Chocolate Chip Donut: $2.20\n"
+        "- Key Lime Pie Donut: $2.10"
     )
 
 
