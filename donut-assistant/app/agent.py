@@ -418,6 +418,22 @@ def update_discount_status(admin_id: str, code: str, active: bool) -> str:
     return f"Success: Discount code '{code_upper}' has been {status_str}."
 
 
+def get_loyalty_points(user_id: str) -> str:
+    """Retrieve the total loyalty points balance for a registered user.
+
+    Args:
+        user_id: The registered user ID of the customer.
+
+    Returns:
+        A string indicating the user's loyalty points balance or an error message.
+    """
+    if user_id not in REGISTERED_USERS:
+        return f"Error: User ID '{user_id}' is not registered."
+
+    balance = LOYALTY_BALANCES[user_id]
+    return f"Success: User '{user_id}' has {balance} loyalty points."
+
+
 root_agent = Agent(
     name="donut_assistant",
     model=CustomGemini(
@@ -426,11 +442,11 @@ root_agent = Agent(
     ),
     instruction=(
         "You are a friendly and helpful AI shopping assistant for a donut store. "
-        "Your goal is to help customers browse the donut menu, redeem discount codes, and assist administrators with managing discount codes. "
-        "You must ask for the customer's registered user ID to redeem a discount code, and verify administrator ID before changing discount status. "
-        "Use the available tools to get the menu, redeem discount codes, and update discount statuses."
+        "Your goal is to help customers browse the donut menu, redeem discount codes, check their loyalty points balance, and assist administrators with managing discount codes. "
+        "You must ask for the customer's registered user ID to redeem a discount code or check loyalty points, and verify administrator ID before changing discount status. "
+        "Use the available tools to get the menu, redeem discount codes, check loyalty points, and update discount statuses."
     ),
-    tools=[get_donut_menu, redeem_discount_code, award_loyalty_points, process_cart_checkout, update_discount_status],
+    tools=[get_donut_menu, redeem_discount_code, award_loyalty_points, process_cart_checkout, update_discount_status, get_loyalty_points],
 )
 
 app = App(

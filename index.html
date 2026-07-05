@@ -705,6 +705,7 @@
         ];
 
         let cart = [];
+        let loyaltyPoints = 0;
 
         function renderMenu() {
             const container = document.getElementById('menu-container');
@@ -840,6 +841,9 @@
                         appendAgentMessage(response);
                     }
                 }
+                else if (query.includes('points') || query.includes('loyalty')) {
+                    appendAgentMessage(`🏆 You currently have <strong>${loyaltyPoints}</strong> loyalty points! You earn 100 loyalty points automatically on every checkout.`);
+                }
                 else if (query.includes('checkout') || query.includes('check out') || query.includes('order')) {
                     triggerCheckout();
                 }
@@ -895,7 +899,8 @@
 
         function closeCheckoutModal() {
             document.getElementById('checkout-modal').classList.remove('active');
-            appendAgentMessage(`🎉 Order successfully processed! Your items (${cart.length} donuts) have been ordered, and 100 loyalty points have been added to your account.`);
+            loyaltyPoints += 100;
+            appendAgentMessage(`🎉 Order successfully processed! Your items (${cart.length} donuts) have been ordered, and 100 loyalty points have been added to your account. Your new loyalty balance is ${loyaltyPoints} points.`);
             cart = [];
         }
 
