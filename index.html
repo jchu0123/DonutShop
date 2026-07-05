@@ -669,7 +669,39 @@
             { name: "Boston Cream Donut", price: 2.20, desc: "Custard filled with chocolate glaze", type: "chocolaty" },
             { name: "Maple Bacon Donut", price: 2.50, desc: "Maple glaze topped with crispy bacon", type: "adventure" },
             { name: "Apple Fritter", price: 2.25, desc: "Cinnamon apple dough pastry", type: "classic" },
-            { name: "Cronut", price: 3.00, desc: "Flaky croissant-donut hybrid", type: "adventure" }
+            { name: "Cinnamon Twist", price: 1.95, desc: "Fluffy fried dough twisted with cinnamon sugar", type: "classic" },
+            { name: "Old Fashioned Glazed Donut", price: 1.60, desc: "Cake donut with a sweet glaze", type: "classic" },
+            { name: "Blueberry Cake Donut", price: 1.70, desc: "Cake donut bursting with real blueberry flavor", type: "fruity" },
+            { name: "Red Velvet Cake Donut", price: 1.80, desc: "Rich cocoa cake donut with glaze", type: "chocolaty" },
+            { name: "Coconut Toasted Donut", price: 1.90, desc: "Topped with toasted shredded coconut flakes", type: "classic" },
+            { name: "Powdered Sugar Donut", price: 1.40, desc: "Coated in sweet powdered sugar", type: "classic" },
+            { name: "Lemon Filled Donut", price: 2.10, desc: "Filled with zesty lemon curd", type: "fruity" },
+            { name: "Cronut (Croissant Donut)", price: 3.00, desc: "Flaky croissant-donut hybrid", type: "adventure" },
+            { name: "Double Chocolate Donut", price: 1.80, desc: "Chocolate cake donut with chocolate glaze", type: "chocolaty" },
+            { name: "Vanilla Frosted Donut", price: 1.75, desc: "Glazed ring with vanilla icing", type: "classic" },
+            { name: "Cinnamon Roll Donut", price: 2.25, desc: "Cinnamon roll shaped donut with glaze", type: "classic" },
+            { name: "Pumpkin Spice Cake Donut", price: 1.85, desc: "Spiced pumpkin cake donut", type: "classic" },
+            { name: "Sour Cream Donut", price: 1.70, desc: "Classic sour cream cake donut", type: "classic" },
+            { name: "Salted Caramel Glazed Donut", price: 2.10, desc: "Drizzled with rich salted caramel", type: "classic" },
+            { name: "Bavarian Cream Donut", price: 2.15, desc: "Custard-filled donut topped with powdered sugar", type: "chocolaty" },
+            { name: "Cookies and Cream Donut", price: 2.20, desc: "Vanilla icing topped with crushed Oreo cookies", type: "chocolaty" },
+            { name: "Matcha Green Tea Donut", price: 2.30, desc: "Earthy matcha green tea glaze", type: "classic" },
+            { name: "Apple Cider Donut", price: 1.85, desc: "Spiced apple cider cake donut", type: "fruity" },
+            { name: "S'mores Donut", price: 2.40, desc: "Topped with chocolate, marshmallow, and graham crackers", type: "chocolaty" },
+            { name: "Raspberry Jam Donut", price: 2.05, desc: "Filled with sweet raspberry jam", type: "fruity" },
+            { name: "Peanut Butter Cup Donut", price: 2.45, desc: "Chocolate frosting with peanut butter cup chunks", type: "chocolaty" },
+            { name: "Pistachio Glazed Donut", price: 2.35, desc: "Sweet glaze infused with toasted pistachios", type: "classic" },
+            { name: "Lemon Poppyseed Donut", price: 1.95, desc: "Lemon glaze with poppyseeds", type: "classic" },
+            { name: "Banana Pudding Donut", price: 2.10, desc: "Banana pudding filling topped with vanilla wafers", type: "fruity" },
+            { name: "Coconut Cream Donut", price: 2.20, desc: "Filled with sweet coconut cream", type: "fruity" },
+            { name: "Salted Caramel Pretzel Donut", price: 2.50, desc: "Salted caramel glaze topped with crushed pretzels", type: "adventure" },
+            { name: "White Chocolate Raspberry Donut", price: 2.40, desc: "White chocolate drizzle and raspberry swirl", type: "fruity" },
+            { name: "Caramel Apple Donut", price: 2.25, desc: "Caramel icing topped with dried apple bits", type: "fruity" },
+            { name: "Espresso Cake Donut", price: 1.90, desc: "Coffee-infused cake donut with glaze", type: "chocolaty" },
+            { name: "Rocky Road Donut", price: 2.30, desc: "Chocolate frosting with nuts and mini marshmallows", type: "chocolaty" },
+            { name: "Maple Pecan Donut", price: 2.15, desc: "Maple frosting topped with chopped pecans", type: "classic" },
+            { name: "Mint Chocolate Chip Donut", price: 2.20, desc: "Mint glaze topped with chocolate chips", type: "chocolaty" },
+            { name: "Key Lime Pie Donut", price: 2.10, desc: "Zesty key lime filling with graham cracker crust", type: "fruity" }
         ];
 
         let cart = [];
@@ -785,6 +817,28 @@
                 }
                 else if (query.includes('sprinkles30')) {
                     appendAgentMessage("🎟️ Coupon Code <strong>SPRINKLES30</strong> applied! You will get 30% off sprinkles items in your order upon checkout.");
+                }
+                else if (query.includes('ordered so far') || query.includes('what i ordered') || query.includes('my cart') || query.includes('my order') || query.includes('total price') || query.includes('total cost') || query.includes('how much') || query.includes('cart total') || query.includes('view cart')) {
+                    if (cart.length === 0) {
+                        appendAgentMessage("🛒 Your order is currently empty! Add some donuts from the menu to get started.");
+                    } else {
+                        let itemCounts = {};
+                        cart.forEach(item => {
+                            itemCounts[item.name] = (itemCounts[item.name] || 0) + 1;
+                        });
+
+                        let response = "Here is what you have ordered so far:<br>";
+                        let total = 0;
+                        for (let name in itemCounts) {
+                            let count = itemCounts[name];
+                            let donut = DONUT_MENU.find(d => d.name === name);
+                            let itemTotal = donut.price * count;
+                            total += itemTotal;
+                            response += `• <strong>${name}</strong> x${count} - $${itemTotal.toFixed(2)} ($${donut.price.toFixed(2)} each)<br>`;
+                        }
+                        response += `<br><strong>Total Price: $${total.toFixed(2)}</strong>`;
+                        appendAgentMessage(response);
+                    }
                 }
                 else if (query.includes('checkout') || query.includes('check out') || query.includes('order')) {
                     triggerCheckout();
