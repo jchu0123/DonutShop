@@ -88,3 +88,68 @@ To set up your production infrastructure, run `agents-cli infra cicd`.
 ## Observability
 
 Built-in telemetry exports to Cloud Trace, BigQuery, and Cloud Logging.
+
+---
+
+## 📖 Donut Shop Virtual Assistant: Beginner's Guide & Walkthrough
+
+Welcome to the **Donut Shop Virtual Assistant** project! This section walks you through the system's core capabilities, how it is structured under the hood, and how you can interact with it step-by-step.
+
+### 1. Project Overview
+
+The Donut Shop Virtual Assistant is an interactive AI-powered application designed to simulate the customer journey at a modern donut boutique. The project brings together two primary layers:
+1. **The Backend AI Agent**: Built using Python and the Google Agent Development Kit (ADK) in [app/agent.py](app/agent.py), this agent functions as a smart shopping assistant. It has access to professional "tools" (Python functions) allowing it to retrieve menu details, process cart checkouts, validate discount codes, and credit loyalty points.
+2. **The Frontend User Interface**: A premium Web interface in [index.html](../index.html) styled with a modern glassmorphism aesthetic. It renders a 40-item menu grid with taste filters (Chocolaty, Fruity, Classic, and Bold/Adventure) and contains an interactive chat window to simulate real-time conversations with the virtual agent.
+
+Through this project, customers can browse delicious treats, add them to their order, review their cart items, ask the AI for recommendations based on their flavor preferences, apply discount codes, and checkout to earn loyalty points.
+
+### 2. The 40-Item Menu & Discount System
+
+The store offers **40 unique donut types**, categorized into four flavor profiles:
+*   **Classic / Glazed**: Traditional glazed rings, old-fashioned cakes, cinnamon rolls, twisted doughs, and nutty glazes.
+*   **Chocolaty**: Thick frosting, chocolate cake bases, fudge drizzles, cookies & cream toppings, and s'mores pairings.
+*   **Fruity / Sweet**: Infused with real fruit fillings (raspberry jam, lemon curd, key lime custard) or topped with colorful glazes and sprinkles.
+*   **Bold / Adventure**: Creative and experimental pastries like bacon-infused maple glazes, croissant-donut hybrids (cronuts), and pretzel-salted caramel toppings.
+
+#### The Coupon System
+The store supports multiple discount codes. Some codes are generic, while others target specific items. The system validates codes and applies a **20% discount** to the entire order subtotal if eligible:
+*   `FROSTING20`: 20% off frosting products (e.g., Chocolate Frosted Donut).
+*   `SPRINKLES30`: 30% off sprinkles products (e.g., Strawberry Sprinkles Donut).
+*   `GLAZED10`: 10% off glazed products (e.g., Glazed Donut).
+*   `JELLY15`: 15% off jelly products (e.g., Jelly-Filled Donut).
+*   `BOSTON25`: 25% off Boston Cream products (e.g., Boston Cream Donut).
+*   `MAPLE20`: 20% off maple bacon products (e.g., Maple Bacon Donut).
+*   `FRITTER10`: 10% off apple fritters (e.g., Apple Fritter).
+*   `BLUEBERRY15`: 15% off blueberry products (e.g., Blueberry Cake Donut).
+*   `CHOCO20`: 20% off double chocolate products (e.g., Double Chocolate Donut).
+*   `MATCHA25`: 25% off matcha products (e.g., Matcha Green Tea Donut).
+
+### 3. How to Launch and Test the Project
+
+To experience the assistant in your local environment, follow these steps:
+1. **Install Dependencies**: Run `agents-cli install` to install required packages.
+2. **Start Agent Playground**: Run `agents-cli playground` to start the local AI playground.
+3. **Open Frontend**: Open the root [index.html](../index.html) file in a web browser.
+
+### 4. Interactive Scenarios
+
+#### Scenario A: Point-and-Click Ordering
+1. On the left panel of the web page, filter the menu by clicking one of the flavor tabs (e.g., **Chocolaty**).
+2. Click **Add to Order** on the *S'mores Donut* card.
+3. Notice that the chat assistant on the right updates to confirm the addition and displays the current item count.
+
+#### Scenario B: Conversational Chat
+You can chat with the virtual assistant:
+- Type `"Show me the menu"` to print all 40 options.
+- Type `"What do you recommend for a fruity flavor?"` to get fruit-filled suggestions.
+- Type `"Add a Maple Bacon Donut and a Boston Cream Donut"` to add them directly.
+
+#### Scenario C: Cart Summaries
+- Ask `"What did I order so far?"` or `"my cart"` to see a breakdown of quantities and prices.
+- Ask `"How much is my total price?"` to view the grand total.
+
+#### Scenario E: Redeeming Discount Codes
+- Type `"Apply code JELLY15"` or click the quick coupon chips to apply active discounts to your cart.
+
+#### Scenario F: The Checkout Pipeline
+- Type `"Check out"` or click the checkout button. A checkout pipeline overlay will verify your user registration, validate the discount codes, calculate and credit 100 loyalty points, and log the completed order.
