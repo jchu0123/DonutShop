@@ -148,8 +148,33 @@ You can chat with the virtual assistant:
 - Ask `"What did I order so far?"` or `"my cart"` to see a breakdown of quantities and prices.
 - Ask `"How much is my total price?"` to view the grand total.
 
-#### Scenario E: Redeeming Discount Codes
+#### Scenario D: Redeeming Discount Codes
 - Type `"Apply code JELLY15"` or click the quick coupon chips to apply active discounts to your cart.
 
-#### Scenario F: The Checkout Pipeline
+#### Scenario E: The Checkout Pipeline
 - Type `"Check out"` or click the checkout button. A checkout pipeline overlay will verify your user registration, validate the discount codes, calculate and credit 100 loyalty points, and log the completed order.
+
+#### Scenario F: Querying Loyalty Points
+- Type `"how many loyalty points do I have?"` or `"show my loyalty points"`.
+- The assistant will reply with your current points total (e.g. 100 points).
+
+### 5. Backend Tool Specifications
+
+For developers looking at the Python code in [app/agent.py](app/agent.py), the agent operates by matching user messages with the following tools:
+1.  **`get_donut_menu()`**: Returns a formatted string detailing the full 40-donut menu and the eligible discount codes.
+2.  **`redeem_discount_code(code, user_id)`**: Verifies if a user is registered and checks if the given code is active and has not been redeemed.
+3.  **`award_loyalty_points(user_id, order_id, points)`**: Adds points to a user's account. This function is fortified with safety guards (cap guard, transaction guard, double-crediting guard).
+4.  **`process_cart_checkout(user_id, cart_id, discount_code)`**: Calculates the cart subtotal, applies the discount (if a valid code is provided), creates a final order log, and automatically awards 100 loyalty points.
+5.  **`update_discount_status(admin_id, code, active)`**: Admin tool allowing users in the `ADMIN_USERS` list to toggle whether coupon codes are active or inactive.
+6.  **`get_loyalty_points(user_id)`**: Retrieve the total loyalty points balance for a registered user.
+
+### 6. Running Tests
+
+To run the unit and integration tests:
+```bash
+.venv\Scripts\pytest tests/unit tests/integration
+```
+To run the agent-level function calling tests:
+```bash
+.venv\Scripts\pytest tests/test_agent.py
+```
