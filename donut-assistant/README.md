@@ -152,11 +152,11 @@ You can chat with the virtual assistant:
 - Type `"Apply code JELLY15"` or click the quick coupon chips to apply active discounts to your cart.
 
 #### Scenario E: The Checkout Pipeline
-- Type `"Check out"` or click the checkout button. A checkout pipeline overlay will verify your user registration, validate the discount codes, calculate and credit 100 loyalty points, and log the completed order.
+- Type `"Check out"` or click the checkout button. A checkout pipeline overlay will verify your user registration, validate the discount codes, calculate and credit loyalty points (50 points per donut ordered, up to 500 points per checkout), and log the completed order.
 
 #### Scenario F: Querying Loyalty Points
 - Type `"how many loyalty points do I have?"` or `"show my loyalty points"`.
-- The assistant will reply with your current points total (e.g. 100 points).
+- The assistant will reply with your current points total.
 
 ### 5. Backend Tool Specifications
 
@@ -164,7 +164,7 @@ For developers looking at the Python code in [app/agent.py](app/agent.py), the a
 1.  **`get_donut_menu()`**: Returns a formatted string detailing the full 40-donut menu and the eligible discount codes.
 2.  **`redeem_discount_code(code, user_id)`**: Verifies if a user is registered and checks if the given code is active and has not been redeemed.
 3.  **`award_loyalty_points(user_id, order_id, points)`**: Adds points to a user's account. This function is fortified with safety guards (cap guard, transaction guard, double-crediting guard).
-4.  **`process_cart_checkout(user_id, cart_id, discount_code)`**: Calculates the cart subtotal, applies the discount (if a valid code is provided), creates a final order log, and automatically awards 100 loyalty points.
+4.  **`process_cart_checkout(user_id, cart_id, discount_code)`**: Calculates the cart subtotal, applies the discount (if a valid code is provided), creates a final order log, and automatically awards loyalty points based on the number of donuts ordered (50 points per donut, up to 500 points per checkout).
 5.  **`update_discount_status(admin_id, code, active)`**: Admin tool allowing users in the `ADMIN_USERS` list to toggle whether coupon codes are active or inactive.
 6.  **`get_loyalty_points(user_id)`**: Retrieve the total loyalty points balance for a registered user.
 
