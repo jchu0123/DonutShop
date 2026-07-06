@@ -376,12 +376,14 @@ def process_cart_checkout(
     cart["status"] = "checked_out"
 
     # --- Auto-award loyalty points ---
-    award_loyalty_points(req.user_id, order_id, _LOYALTY_POINTS_PER_ORDER)
+    total_donuts = sum(item["qty"] for item in cart["items"])
+    points_to_award = min(500, total_donuts * 50)
+    award_loyalty_points(req.user_id, order_id, points_to_award)
 
     return (
         f"Success: Order '{order_id}' placed for user '{req.user_id}'. "
         f"Final total: ${final_total:.2f}{discount_note}. "
-        f"{_LOYALTY_POINTS_PER_ORDER} loyalty point(s) awarded."
+        f"{points_to_award} loyalty point(s) awarded."
     )
 
 

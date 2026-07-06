@@ -99,8 +99,9 @@ def test_happy_path_no_discount() -> None:
     assert "4.75" in result
     assert CARTS["cart-001"]["status"] == "checked_out"
     assert len(COMPLETED_ORDERS) == 1
-    # Loyalty points auto-awarded
-    assert LOYALTY_BALANCES["user_123"] == 100
+    # Loyalty points auto-awarded (3 donuts * 50 points = 150 points)
+    assert LOYALTY_BALANCES["user_123"] == 150
+    assert "150 loyalty point(s) awarded" in result
 
 
 def test_happy_path_valid_discount() -> None:
@@ -276,3 +277,47 @@ def test_total_never_negative() -> None:
     # 0.01 * 0.80 = 0.008 → rounds to 0.01, but either way must not be negative
     order = next(iter(COMPLETED_ORDERS.values()))
     assert order["total"] >= 0.0
+
+
+# ---------------------------------------------------------------------------
+# Dynamic loyalty points tests
+# ---------------------------------------------------------------------------
+
+def test_loyalty_points_calculated_on_donut_quantity() -> None:
+    """Loyalty points awarded should be 50 per donut ordered."""
+    CARTS["cart-dynamic"] = {
+        "user_id": "user_123",
+        "items": [
+            {"name": "Glazed Donut", "price": 1.50, "qty": 4},
+        ],
+        "status": "open",
+    }
+    LOYALTY_BALANCES.setdefault("user_123", 0)
+    AWARDED_ORDERS.setdefault("user_123", set())
+
+    result = process_cart_checkout("user_123", "cart-dynamic")
+
+    assert "Success" in result
+    # 4 donuts * 50 = 200 points
+    assert "200 loyalty point(s) awarded" in result
+    assert LOYALTY_BALANCES["user_123"] == 200
+
+
+def test_loyalty_points_capped_at_500() -> None:
+    """Loyalty points awarded should be capped at 500 per checkout."""
+    CARTS["cart-capped"] = {
+        "user_id": "user_123",
+        "items": [
+            {"name": "Glazed Donut", "price": 1.50, "qty": 12},
+        ],
+        "status": "open",
+    }
+    LOYALTY_BALANCES.setdefault("user_123", 0)
+    AWARDED_ORDERS.setdefault("user_123", set())
+
+    result = process_cart_checkout("user_123", "cart-capped")
+
+    assert "Success" in result
+    # 12 donuts * 50 = 600 points, capped at 500
+    assert "500 loyalty point(s) awarded" in result
+    assert LOYALTY_BALANCES["user_123"] == 500
