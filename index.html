@@ -842,7 +842,7 @@
                     }
                 }
                 else if (query.includes('points') || query.includes('loyalty')) {
-                    appendAgentMessage(`🏆 You currently have <strong>${loyaltyPoints}</strong> loyalty points! You earn 100 loyalty points automatically on every checkout.`);
+                    appendAgentMessage(`🏆 You currently have <strong>${loyaltyPoints}</strong> loyalty points! You earn 50 loyalty points per donut ordered, up to 500 points per checkout.`);
                 }
                 else if (query.includes('checkout') || query.includes('check out') || query.includes('order')) {
                     triggerCheckout();
@@ -899,8 +899,9 @@
 
         function closeCheckoutModal() {
             document.getElementById('checkout-modal').classList.remove('active');
-            loyaltyPoints += 100;
-            appendAgentMessage(`🎉 Order successfully processed! Your items (${cart.length} donuts) have been ordered, and 100 loyalty points have been added to your account. Your new loyalty balance is ${loyaltyPoints} points.`);
+            let pointsToAdd = Math.min(500, cart.length * 50);
+            loyaltyPoints = Math.min(1000000, loyaltyPoints + pointsToAdd);
+            appendAgentMessage(`🎉 Order successfully processed! Your items (${cart.length} donuts) have been ordered, and ${pointsToAdd} loyalty points have been added to your account. Your new loyalty balance is ${loyaltyPoints} points.`);
             cart = [];
         }
 
