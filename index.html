@@ -648,7 +648,7 @@
                     </div>
                     <div class="step-row" id="step-loyalty">
                         <div class="step-indicator">3</div>
-                        <div class="step-text">Calculating & awarding loyalty points (100 pts)</div>
+                        <div class="step-text" id="step-loyalty-text">Calculating & awarding loyalty points (100 pts)</div>
                     </div>
                     <div class="step-row" id="step-checkout">
                         <div class="step-indicator">4</div>
@@ -871,6 +871,9 @@
 
             const modal = document.getElementById('checkout-modal');
             const closeBtn = document.getElementById('btn-modal-close');
+
+            let pointsToAdd = Math.min(500, cart.length * 50);
+            document.getElementById('step-loyalty-text').textContent = `Calculating & awarding loyalty points (${pointsToAdd} pts)`;
 
             // Reset modal states
             const steps = ['registration', 'discount', 'loyalty', 'checkout'];
